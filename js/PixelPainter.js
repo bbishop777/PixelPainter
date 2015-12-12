@@ -66,13 +66,15 @@ var cellColor = '#ffffff';
 
 document.body.appendChild(pallette);
 document.body.appendChild(grid);
-
+var mouseDown = false;
 function clickableGrid( rows, cols, fn){
     var grid = document.createElement('table');
     grid.className = 'grid';
     grid.id = 'paintArea';
     var g = 0;
-
+    grid.addEventListener('pointerleave',function() {
+      mouseDown = false;
+    });
     for (var r=0;r<rows;++r){
         var tr = grid.appendChild(document.createElement('tr'));
         g = g +1;
@@ -80,6 +82,19 @@ function clickableGrid( rows, cols, fn){
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
             cell.id ="Row"  + g + "cell" + c;
+            cell.addEventListener('mousedown', function() {
+              mouseDown = true;
+              console.log(mouseDown);
+            });
+            cell.addEventListener('mouseup', function() {
+              mouseDown = false;
+              console.log(mouseDown);
+            });
+            cell.addEventListener('mouseover', function(){
+              if(mouseDown === true){
+                event.target.style.background = cellColor;
+              }
+            });
 
             //console.log(cell.parentNode.rowIndex, cell.cellIndex);
             cell.addEventListener('click', fn);
