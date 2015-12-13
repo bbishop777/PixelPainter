@@ -24,12 +24,15 @@ var paint = function() {
 //   };
 //   console.log(event.target.id);
 //  // }
-lastEvent.name = 'click';
-lastEvent.color= null;
-history.push(lastEvent);
+var lastEvent = {
+  name: null,
+  color: null
+};
+
+history.unshift("end");
 lastEvent.name = event.target.id;
 lastEvent.color = event.target.style.background;
-history.push(lastEvent);
+history.unshift(lastEvent);
 
  event.target.style.background = cellColor;
 
@@ -65,21 +68,16 @@ undoButton.innerHTML= 'Undo';
 document.body.appendChild(undoButton);
 undoButton.addEventListener('click', function () {
   console.log(history);
-  for (var i = history.length-1; i >= 0; i = i - 1){
-    if(history[i].name === 'click'){
-    // if(history[i].name === 'click') {
-    //   history = history.slice(i);
-    //   break;
-    // }
-    }
+  for (var i = 0; i < history.length; i++){
+    if(history[i] === "end"){
+      history = history.slice(i + 1, history.length - 1);
+      break;
+    } else {
       document.getElementById(history[i].name).style.backgroundColor = history[i].color;
+    }
   }
 });
 
-var lastEvent = {
-  name: null,
-  color: null
-};
 var broygbivbpArry = ['#000000', '#FF0000', 'orange','#FFFF00','#00FF00', '#0000FF', '#0000ff', '#660066', '#993333', '#ff99cc'];
 //var lastClicked;
 var grid = clickableGrid(30, 40, paint);
@@ -116,15 +114,19 @@ function clickableGrid( rows, cols, fn){
             });
             cell.addEventListener('mouseover', function(){
               if(mouseDown === true){
+                var lastEvent = {
+                  name: null,
+                  color: null
+                  };
                 lastEvent.name = event.target.id;
                 lastEvent.color = event.target.style.background;
-                history.push(lastEvent);
+                history.unshift(lastEvent);
                 event.target.style.background = cellColor;
               }
             });
 
             //console.log(cell.parentNode.rowIndex, cell.cellIndex);
-            cell.addEventListener('click', fn);
+            cell.addEventListener('mousedown', fn);
 //Can use the above...when clicked sets a Boolean to its opposite ( val = !val).  The variable outside of this is set to
 //false from the start.  when click sets it to true the bellow event listener is allowed to function turning the cells
 //the same color as set in paint (maybe use same function?).  When ending cell is clicked again, its eventlistener
