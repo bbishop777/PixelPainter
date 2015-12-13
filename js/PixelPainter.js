@@ -13,23 +13,26 @@ window.onload = function () {
 //};
 
 var paint = function() {
-
-
-
   // whatCell = event.target.id;
   // //console.log(whatCell);
   // document.getElementById(whatCell).onmouseenter = function () {
   //   mouseOver();
   // };
-
-
 // };
 //   document.getElementById('whatCell').onmouseleave = function mouseLeave() {
 //     document.getElementById('whatCell').style.color = "black";
 //   };
 //   console.log(event.target.id);
- event.target.style.background = cellColor;
 //  // }
+lastEvent.name = 'click';
+lastEvent.color= null;
+history.push(lastEvent);
+lastEvent.name = event.target.id;
+lastEvent.color = event.target.style.background;
+history.push(lastEvent);
+
+ event.target.style.background = cellColor;
+
 };
 
 var storeColor = function () {
@@ -56,17 +59,42 @@ eraseButton.addEventListener('click', function () {
  return cellColor;
 });
 
+
+var undoButton = document.createElement('button');
+undoButton.innerHTML= 'Undo';
+document.body.appendChild(undoButton);
+undoButton.addEventListener('click', function () {
+  console.log(history);
+  for (var i = history.length-1; i >= 0; i = i - 1){
+    if(history[i].name === 'click'){
+    // if(history[i].name === 'click') {
+    //   history = history.slice(i);
+    //   break;
+    // }
+    }
+      document.getElementById(history[i].name).style.backgroundColor = history[i].color;
+  }
+});
+
+var lastEvent = {
+  name: null,
+  color: null
+};
 var broygbivbpArry = ['#000000', '#FF0000', 'orange','#FFFF00','#00FF00', '#0000FF', '#0000ff', '#660066', '#993333', '#ff99cc'];
 //var lastClicked;
 var grid = clickableGrid(30, 40, paint);
 
 var pallette = colorPallette (2, 5, storeColor);
 var cellColor = '#ffffff';
-
+var history = [];
 
 document.body.appendChild(pallette);
 document.body.appendChild(grid);
 var mouseDown = false;
+document.body.addEventListener('mouseup', function() {
+  mouseDown = false;
+  });
+
 function clickableGrid( rows, cols, fn){
     var grid = document.createElement('table');
     grid.className = 'grid';
@@ -82,16 +110,15 @@ function clickableGrid( rows, cols, fn){
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
             cell.id ="Row"  + g + "cell" + c;
+            cell.style.background = '#ffffff';
             cell.addEventListener('mousedown', function() {
               mouseDown = true;
-              console.log(mouseDown);
-            });
-            cell.addEventListener('mouseup', function() {
-              mouseDown = false;
-              console.log(mouseDown);
             });
             cell.addEventListener('mouseover', function(){
               if(mouseDown === true){
+                lastEvent.name = event.target.id;
+                lastEvent.color = event.target.style.background;
+                history.push(lastEvent);
                 event.target.style.background = cellColor;
               }
             });
