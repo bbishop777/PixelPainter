@@ -78,6 +78,30 @@ undoButton.addEventListener('click', function () {
   }
 });
 
+var copyButton = document.createElement('button');
+copyButton.innerHTML= 'Copy';
+document.body.appendChild(copyButton);
+copyButton.addEventListener('click', function () {
+  copyActive = true;
+});
+
+var pasteButton = document.createElement('button');
+pasteButton.innerHTML= 'Paste';
+document.body.appendChild(pasteButton);
+pasteButton.addEventListener('click', function () {
+});
+
+var copyActive = false;
+var copyStart;
+var copyEnd;
+var copyBox =[];
+var rowStart;
+var cellStart;
+var rowEnd;
+var cellEnd;
+
+
+
 var broygbivbpArry = ['#000000', '#FF0000', 'orange','#FFFF00','#00FF00', '#0000FF', '#0000ff', '#660066', '#993333', '#ff99cc'];
 //var lastClicked;
 var grid = clickableGrid(30, 40, paint);
@@ -124,7 +148,39 @@ function clickableGrid( rows, cols, fn){
                 event.target.style.background = cellColor;
               }
             });
-
+            cell.addEventListener('mousedown', function(event){
+            if (copyActive === true){
+              copyStart = event.target;
+              rowStart = parseFloat(copyStart.id.slice((copyStart.id.indexOf('w')+1), copyStart.id.indexOf('c')));
+              console.log(rowStart);
+              cellStart = parseFloat(copyStart.id.slice((copyStart.id.indexOf('l')+2)));
+              console.log(cellStart);
+            }
+            });
+            cell.addEventListener('mouseup', function(event) {
+              if (copyActive === true) {
+                copyEnd = event.target;
+                copyActive = false;
+                rowEnd = parseFloat(copyEnd.id.slice((copyEnd.id.indexOf('w')+1), copyEnd.id.indexOf('c')));
+                console.log(rowEnd);
+                console.log(rowStart);
+                cellEnd = parseFloat(copyEnd.id.slice((copyEnd.id.indexOf('l')+2)));
+                console.log(cellEnd);
+                for (var x = rowStart; x <= rowEnd; x++) {
+                  var rowOfCells = [];
+                  console.log(rowOfCells);
+                  for (var y = cellStart; y <= cellEnd; y++) {
+                    var copyCellId = "Row"  + x + "cell" + y;
+                    console.log(copyCellId);
+                    var copyCell = document.getElementById(copyCellId);
+                    rowOfCells.push(copyCell);
+                    }
+                copyBox.push(rowOfCells);
+                console.log(rowOfCells);
+                }
+                console.log(copyBox);
+              }
+            });
             //console.log(cell.parentNode.rowIndex, cell.cellIndex);
             cell.addEventListener('mousedown', fn);
 //Can use the above...when clicked sets a Boolean to its opposite ( val = !val).  The variable outside of this is set to
