@@ -35,7 +35,6 @@ lastEvent.color = event.target.style.background;
 history.unshift(lastEvent);
 
  event.target.style.background = cellColor;
-
 };
 
 var storeColor = function () {
@@ -44,9 +43,22 @@ var storeColor = function () {
 
 //If you look at this Nick, I discovered the problem was that
 //we had "paintArea.length" (the id) instead of the array paint.Arry
+var buttonDiv = document.createElement('div');
+buttonDiv.id = 'buttonDiv';
+document.body.appendChild(buttonDiv);
+
+var img = new Image();
+var div = document.getElementById('Heading');
+
+img.onload = function() {
+  div.appendChild(img);
+};
+
+img.src = 'assets/pp.png';
+
 var clearButton = document.createElement('button');
 clearButton.innerHTML= 'Clear';
-document.body.appendChild(clearButton);
+document.getElementById('buttonDiv').appendChild(clearButton);
 clearButton.addEventListener('click', function () {
   for (var j=0; j < paintArry.length; j++) {
   paintArry[j].style.backgroundColor = '#ffffff';
@@ -55,7 +67,7 @@ clearButton.addEventListener('click', function () {
 
 var eraseButton = document.createElement('button');
 eraseButton.innerHTML= 'Erase';
-document.body.appendChild(eraseButton);
+document.getElementById('buttonDiv').appendChild(eraseButton);
 
 eraseButton.addEventListener('click', function () {
  cellColor = '#ffffff';
@@ -65,9 +77,8 @@ eraseButton.addEventListener('click', function () {
 
 var undoButton = document.createElement('button');
 undoButton.innerHTML= 'Undo';
-document.body.appendChild(undoButton);
+document.getElementById('buttonDiv').appendChild(undoButton);
 undoButton.addEventListener('click', function () {
-  console.log(history);
   for (var i = 0; i < history.length; i++){
     if(history[i] === "end"){
       history = history.slice(i + 1, history.length - 1);
@@ -80,14 +91,14 @@ undoButton.addEventListener('click', function () {
 
 var copyButton = document.createElement('button');
 copyButton.innerHTML= 'Copy';
-document.body.appendChild(copyButton);
+document.getElementById('buttonDiv').appendChild(copyButton);
 copyButton.addEventListener('click', function () {
   copyActive = true;
 });
 
 var pasteButton = document.createElement('button');
 pasteButton.innerHTML= 'Paste';
-document.body.appendChild(pasteButton);
+document.getElementById('buttonDiv').appendChild(pasteButton);
 pasteButton.addEventListener('click', function () {
 });
 
@@ -103,8 +114,7 @@ var cellEnd;
 
 
 var broygbivbpArry = ['#000000', '#FF0000', 'orange','#FFFF00','#00FF00', '#0000FF', '#0000ff', '#660066', '#993333', '#ff99cc'];
-//var lastClicked;
-var grid = clickableGrid(30, 40, paint);
+var grid = clickableGrid(45, 60, paint);
 
 var pallette = colorPallette (2, 5, storeColor);
 var cellColor = '#ffffff';
@@ -181,7 +191,6 @@ function clickableGrid( rows, cols, fn){
                 console.log(copyBox);
               }
             });
-            //console.log(cell.parentNode.rowIndex, cell.cellIndex);
             cell.addEventListener('mousedown', fn);
 //Can use the above...when clicked sets a Boolean to its opposite ( val = !val).  The variable outside of this is set to
 //false from the start.  when click sets it to true the bellow event listener is allowed to function turning the cells

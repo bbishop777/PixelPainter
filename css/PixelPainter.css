@@ -1,12 +1,59 @@
+
+body {
+  background-image: url(./../assets/X-Wing.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .grid { margin:1em auto; border-collapse:collapse }
 .grid td {
-    cursor:pointer;
-    width:30px; height:30px;
+    width:10px; height:10px;
     border:1px solid #ccc;
     text-align:center;
     font-family:sans-serif; font-size:13px
 }
-.grid td.clicked {
-    background-color:yellow;
-    font-weight:bold; color:red;
+
+@media screen and (max-width: 480px) {
+  body {
+    background-color: blue;
+  }
+
+  .grid { margin:1em auto; border-collapse:collapse }
+
+  .grid td {
+    width:5px; height:5px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+  }
+}
+
+#swatch td {
+    width:20px; height:20px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
+.buttons {
+  background-color: black;
+  width: 30px; height: 20px;
+}
+button {
+  width: 60;
+  height: 45;
+  margin: 5px;
+}
+
+#buttonDiv {
+  width: 350px;
+  margin: auto;
+
+}
+
+h1 {
+  width: 50%;
+  margin: auto;
+}
+#paintArea {
+  opacity: .7;
 }
