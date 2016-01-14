@@ -47,15 +47,6 @@ var buttonDiv = document.createElement('div');
 buttonDiv.id = 'buttonDiv';
 document.body.appendChild(buttonDiv);
 
-var img = new Image();
-var div = document.getElementById('Heading');
-
-img.onload = function() {
-  div.appendChild(img);
-};
-
-img.src = 'assets/pp.png';
-
 var clearButton = document.createElement('button');
 clearButton.innerHTML= 'Clear';
 document.getElementById('buttonDiv').appendChild(clearButton);
@@ -114,7 +105,7 @@ var cellEnd;
 
 
 var broygbivbpArry = ['#000000', '#FF0000', 'orange','#FFFF00','#00FF00', '#0000FF', '#0000ff', '#660066', '#993333', '#ff99cc'];
-var grid = clickableGrid(45, 60, paint);
+var grid = clickableGrid(80, 120, paint);
 
 var pallette = colorPallette (2, 5, storeColor);
 var cellColor = '#ffffff';
@@ -144,8 +135,13 @@ function clickableGrid( rows, cols, fn){
             cell.id ="Row"  + g + "cell" + c;
             cell.style.background = '#ffffff';
             cell.addEventListener('mousedown', function() {
-              mouseDown = true;
+            // id="myAudio"
+            // var sounds = new Audio();
+            // sounds.src = 'assets/Lightsaber Turn On.wav';
+            // document.getElementById('myAudio').sounds.play();
+            mouseDown = true;
             });
+
             cell.addEventListener('mouseover', function(){
               if(mouseDown === true){
                 var lastEvent = {
